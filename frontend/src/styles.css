@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+
+:root * {
+  font-family: "Fira Code Retina", Verdana, Geneva, Tahoma, sans-serif;
+  --color1: rgb(0, 10, 20, 0);
+  --color2: rgb(140, 200, 255, 1);
+  --color3: rgb(40, 230, 120, 1);
+  --color4: rgb(230, 255, 80);
+  --background-color1: rgb(0, 10, 20);
+  --background-color2: rgba(20, 30, 40, 0.5);
+  --font-color1: rgb(25, 25, 25, 0.85);
+  --font-color2: rgb(220, 220, 220, 0.85);
+  --radius1: 20px;
+  --radius2: 0px;
+  --font-size1: 20px;
+  --font-size2: 28px;
+}
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: var(--background-color1);
+}
+input:focus {
+  outline: none;
+}
