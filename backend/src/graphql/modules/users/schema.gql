@@ -1,0 +1,24 @@
+type User {
+  id: ID!
+  google_id: String!
+  name: String!
+  email: String!
+  picture: String!
+  createdAt: String!
+}
+
+input UserInput {
+  google_id: String!
+  name: String!
+  email: String!
+  picture: String!
+}
+
+type Query {
+  users: [User!]
+  user(id: ID!): User
+}
+
+type Mutation {
+  setUser(token: String!): User!
+}
