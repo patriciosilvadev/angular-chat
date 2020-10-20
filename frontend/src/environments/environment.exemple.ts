@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  google_client_id: ''
+  google_client_id: '',
+  api_url: '',
 };

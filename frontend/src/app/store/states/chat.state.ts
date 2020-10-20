@@ -18,19 +18,19 @@ export const selectMessages = createSelector(
   ChatState.selectMessages
 );
 
-export const selectLoading = createSelector(
+export const selectIsLoading = createSelector(
   selectChatState,
-  ChatState.selectLoading
+  ChatState.selectIsLoading
 );
 
-export const selectLoaded = createSelector(
+export const selectIsLoaded = createSelector(
   selectChatState,
-  ChatState.selectLoaded
+  ChatState.selectIsLoaded
 );
 
-export const selectLogged = createSelector(
+export const selectIsLogged = createSelector(
   selectChatState,
-  ChatState.selectLogged
+  ChatState.selectIsLogged
 );
 
 export const selectUser = createSelector(

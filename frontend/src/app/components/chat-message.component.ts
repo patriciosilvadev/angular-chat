@@ -40,6 +40,7 @@ import { Message } from 'src/app/store/models/message.model';
       }
       .message-body p{
         margin: 0;
+        word-break: break-word;
       }
       /* MESSAGES FROM ME */
       .message-from-me {

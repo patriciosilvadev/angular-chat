@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GoogleAuthAction } from 'src/app/store/actions/chat.actions';
-
-// TO LOGIN AND LOGOUT
+import { selectIsLogged } from './store/states/chat.state'
 import { SocialAuthService } from "angularx-social-login";
 import { GoogleLoginProvider } from "angularx-social-login";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   template: `
     <div>
-      <div *ngIf="!loggedIn" class="center">
+      <div *ngIf="!(isLoggedIn$ | async)" class="center">
         <button class='google-button' (click)='signInWithGoogle()'>CONTINUE WITH GOOGLE</button>
       </div>
-      <div *ngIf="loggedIn">
+      <div *ngIf="(isLoggedIn$ | async)">
         <app-chat-timeline></app-chat-timeline>
         <app-chat-input></app-chat-input>
       </div>
@@ -48,7 +48,7 @@ import { GoogleLoginProvider } from "angularx-social-login";
   `],
 })
 export class AppComponent implements OnInit {
-  loggedIn: boolean;
+  isLoggedIn$: Observable<boolean>;
 
   constructor(
     private store: Store,
@@ -64,8 +64,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoggedIn$ = this.store.select(selectIsLogged);
     this.authService.authState.subscribe((user) => {
-      this.loggedIn = (user != null);
       this.store.dispatch(GoogleAuthAction(user.idToken));
     });
   }

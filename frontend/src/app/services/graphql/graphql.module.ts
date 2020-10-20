@@ -3,8 +3,9 @@ import { APOLLO_OPTIONS } from 'apollo-angular';
 import { InMemoryCache } from '@apollo/client/core';
 import { HttpLink } from 'apollo-angular/http';
 import { WebSocketLink } from 'apollo-link-ws';
+import { environment } from 'src/environments/environment';
 
-const uri = 'ws://localhost:4201/graphql';
+const uri = environment.api_url;
 
 // FIXME todas as requests estão usando WebSockets, se quiser colocar cada request em sua URI especifica é mais complexo
 export function createApollo() {

@@ -7,18 +7,18 @@ import { User } from '../models/user.model';
 
 export interface ChatShape {
   messages: Message[];
-  loaded: boolean;
-  loading: boolean;
-  logged: boolean;
+  isLoaded: boolean;
+  isLoading: boolean;
+  isLogged: boolean;
   user: User;
 }
 
 // Selectors
 
 export const selectMessages = (state: ChatShape) => state.messages;
-export const selectLoading = (state: ChatShape) => state.loading;
-export const selectLoaded = (state: ChatShape) => state.loaded;
-export const selectLogged = (state: ChatShape) => state.logged;
+export const selectIsLoading = (state: ChatShape) => state.isLoading;
+export const selectIsLoaded = (state: ChatShape) => state.isLoaded;
+export const selectIsLogged = (state: ChatShape) => state.isLogged;
 export const selectUser = (state: ChatShape) => state.user;
 export const selectUserId = (state: ChatShape) => state.user.id;
 
@@ -26,9 +26,9 @@ export const selectUserId = (state: ChatShape) => state.user.id;
 
 export const initialChatState: ChatShape = {
   messages: [],
-  loaded: false,
-  loading: false,
-  logged: false,
+  isLoaded: false,
+  isLoading: false,
+  isLogged: false,
   user: {
     id: -1,
     name: '',
@@ -45,21 +45,21 @@ export const chatReducer = createReducer(
 
   on(
     ChatActions.GetMessagesAction, (state): ChatShape => {
-      const newState = { ...state, loading: true, loaded: false };
+      const newState = { ...state, isLoading: true, isLoaded: false };
       console.log(newState);
       return newState;
     }
   ),
   on(
     ChatActions.GetMessagesSuccessAction, (state, action): ChatShape => {
-      const newState = { ...state, messages: action.messages, loading: false, loaded: true };
+      const newState = { ...state, messages: action.messages, isLoading: false, isLoaded: true };
       console.log(newState);
       return newState;
     }
   ),
   on(
     ChatActions.GetMessagesFailAction, (state, action): ChatShape => {
-      const newState = { ...state, messages: action.messages, loading: false, loaded: false };
+      const newState = { ...state, messages: action.messages, isLoading: false, isLoaded: false };
       console.log(newState);
       return newState;
     }
@@ -81,7 +81,7 @@ export const chatReducer = createReducer(
 
   on(
     ChatActions.GoogleAuthSuccessAction, (state, action): ChatShape => {
-      const newState = { ...state, user: action.user, logged: true };
+      const newState = { ...state, user: action.user, isLogged: true };
       console.log(newState);
       return newState;
     }
@@ -89,7 +89,7 @@ export const chatReducer = createReducer(
 
   on(
     ChatActions.GoogleAuthFailAction, (state): ChatShape => {
-      const newState = { ...state, user: initialChatState.user, logged: initialChatState.logged };
+      const newState = { ...state, user: initialChatState.user, isLogged: false };
       console.log(newState);
       return newState;
     }

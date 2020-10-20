@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Message } from 'src/app/store/models/message.model';
 import { Store } from '@ngrx/store';
-import { selectMessages, selectLoading, selectLoaded, selectUserId } from 'src/app/store/states/chat.state';
+import { selectMessages, selectIsLoading, selectIsLoaded, selectUserId } from 'src/app/store/states/chat.state';
 import { GetMessagesAction } from 'src/app/store/actions/chat.actions';
 
 @Component({
@@ -11,7 +11,7 @@ import { GetMessagesAction } from 'src/app/store/actions/chat.actions';
     class="chat-timeline"
     #scrollMe
     [scrollTop]="scrollMe.scrollHeight"
-    *ngIf="(loaded$ | async) === true"
+    *ngIf="(isLoaded$ | async)"
   >
     <div class='messages-container background-pattern'>
       <div *ngFor="let msg of (messages$ | async)" [className]="isMyMessage(msg.user.id) ? 'msg-right' : 'msg-left'">
@@ -19,7 +19,7 @@ import { GetMessagesAction } from 'src/app/store/actions/chat.actions';
       </div>
     </div>
   </div>
-  <div *ngIf="(loading$ | async) === true" class='loading-screen chat-timeline'>
+  <div *ngIf="(isLoading$ | async)" class='loading-screen chat-timeline'>
     <p>LOADING MESSAGES</p>
   </div>
   `,
@@ -46,7 +46,6 @@ import { GetMessagesAction } from 'src/app/store/actions/chat.actions';
       }
       /* MESSAGES */
       .chat-timeline .message {
-        word-wrap: break-word;
         max-width: 70%;
         display: inline-block;
       }
@@ -63,8 +62,8 @@ import { GetMessagesAction } from 'src/app/store/actions/chat.actions';
 })
 export class ChatTimelineComponent implements OnInit {
   public messages$: Observable<Message[]>;
-  public loading$: Observable<boolean>;
-  public loaded$: Observable<boolean>;
+  public isLoading$: Observable<boolean>;
+  public isLoaded$: Observable<boolean>;
   private userId: number;
 
   constructor(private store: Store) {}
@@ -75,8 +74,8 @@ export class ChatTimelineComponent implements OnInit {
 
   ngOnInit(): void {
     this.messages$ = this.store.select(selectMessages);
-    this.loading$ = this.store.select(selectLoading);
-    this.loaded$ = this.store.select(selectLoaded);
+    this.isLoading$ = this.store.select(selectIsLoading);
+    this.isLoaded$ = this.store.select(selectIsLoaded);
 
     this.store.select(selectUserId).subscribe(id => this.userId = id);
 
