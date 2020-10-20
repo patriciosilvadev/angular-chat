@@ -4,33 +4,66 @@ import { Message } from 'src/app/store/models/message.model';
 @Component({
   selector: 'app-chat-message',
   template: `
-    <div class="message-container">
+    <div [className]="myMsg ? 'message-container message-from-me' : 'message-container message-from-others'">
       <img src='{{ chatMessage.user.picture }}'>
-      <p class="message-body">
-        <strong>{{ chatMessage.user.name }}</strong
-        >: {{ chatMessage.content }}
-      </p>
+      <div class="message-body">
+        <div class='header'><p>{{ chatMessage.user.name }}</p></div>
+        <p>{{ chatMessage.content }}</p>
+      </div>
     </div>
   `,
   styles: [
     `
+      /* ALL MESSAGES */
       .message-container {
+        font-size: var(--any-msg-font-size);
         display: flex;
+        margin: 5px;
+        user-select: none;
       }
       .message-container img {
-        height: 50px;
-        border: 2px solid var(--background-color1);
-        border-radius: 50%;
+        background-color: var(--any-msg-img-border-color);
+        height: 52px;
+        border: 3px solid var(--any-msg-img-border-color);
+        border-radius: 5px;
       }
       .message-body {
-        margin: 0 0 0 20px;
-        color: var(--font-color1);
+        color: var(--any-msg-font-color);
         text-align: left;
-        user-select: none;
+        border-radius: 5px;
+        padding: 5px;
+        vertical-align: middle;
+      }
+      .message-body .header p{
+        margin: 0;
+        font-weight: 700;
+      }
+      .message-body p{
+        margin: 0;
+      }
+      /* MESSAGES FROM ME */
+      .message-from-me {
+        flex-direction: row-reverse;
+      }
+      .message-from-me .message-body {
+        background-color: var(--my-msg-background-color);
+      }
+      .message-from-me img {
+        margin-left: 10px;
+        margin-right: 5px;
+      }
+      /* MESSAGES FROM OTHERS */
+      .message-from-others .message-body {
+        background-color: var(--others-msg-background-color);
+      }
+      .message-from-others img {
+        margin-right: 10px;
+        margin-left: 5px;
       }
     `,
   ],
 })
 export class ChatMessageComponent {
   @Input() chatMessage: Message;
+  @Input() myMsg: boolean;
 }

@@ -13,8 +13,10 @@ import { GetMessagesAction } from 'src/app/store/actions/chat.actions';
     [scrollTop]="scrollMe.scrollHeight"
     *ngIf="(loaded$ | async) === true"
   >
-    <div *ngFor="let msg of (messages$ | async)" [class.my-msg]="msg.user.id === userId">
-      <app-chat-message class="message" [chatMessage]="msg"></app-chat-message>
+    <div class='messages-container background-pattern'>
+      <div *ngFor="let msg of (messages$ | async)" [className]="isMyMessage(msg.user.id) ? 'msg-right' : 'msg-left'">
+        <app-chat-message class="message" [chatMessage]="msg" [myMsg]="isMyMessage(msg.user.id)"></app-chat-message>
+      </div>
     </div>
   </div>
   <div *ngIf="(loading$ | async) === true" class='loading-screen chat-timeline'>
@@ -23,45 +25,38 @@ import { GetMessagesAction } from 'src/app/store/actions/chat.actions';
   `,
   styles: [
     `
-      .loading-screen {
-        color: white; font-size: 100px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      .background-pattern {
+        background:
+          radial-gradient(#0f0f0f 3px, transparent 4px),
+          radial-gradient(#0f0f0f 3px, transparent 4px),
+          linear-gradient(#f0f0f0 4px, transparent 0),
+          linear-gradient(45deg, transparent 74px, transparent 75px, #a4a4a4 75px, #a4a4a4 76px, transparent 77px, transparent 109px),
+          linear-gradient(-45deg, transparent 75px, transparent 76px, #a4a4a4 76px, #a4a4a4 77px, transparent 78px, transparent 109px),
+          #f0f0f0;
+        background-size: 109px 109px, 109px 109px,100% 6px, 109px 109px, 109px 109px;
+        background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
       }
-      .loading-screen p {
-          color: var(--font-color2);
-          font-size: 60px;
-      }
+      /* TIMELINE */
       .chat-timeline {
-        /* background-color: var(--background-color2); */
-        border-radius: var(--radius2);
-        margin: calc(0.5vh - 1px) calc(0.5vw - 1px);
-        height: calc(92vh - 20px);
-        border: 2px solid var(--color1);
-        padding: 0 100px 20px;
+        height: calc(100vh);
         overflow-y: scroll;
-        overflow-x: hidden;
-        font-size: var(--font-size1);
       }
-      .chat-timeline .my-msg {
-        text-align: right;
+      .chat-timeline .messages-container {
+        padding-bottom: 55px;
       }
+      /* MESSAGES */
       .chat-timeline .message {
         word-wrap: break-word;
-        max-width: 50%;
-        margin: 6px 0;
+        max-width: 70%;
         display: inline-block;
-        border: 1px solid transparent;
-        border-radius: var(--radius1);
-        padding: 10px;
-        background-color: var(--color2);
-        box-shadow: 0px 0px 2px 2px var(--color2);
-        backdrop-filter: blur(2px);
       }
-      .chat-timeline .my-msg .message {
-        background-color: var(--color3);
-        box-shadow: 0px 0px 2px 2px var(--color3);
+      /* MY MESSAGES */
+      .chat-timeline .msg-right {
+        text-align: right;
+      }
+      /* OTHER MESSAGES */
+      .chat-timeline .msg-left {
+        text-align: left;
       }
     `,
   ],
@@ -70,9 +65,13 @@ export class ChatTimelineComponent implements OnInit {
   public messages$: Observable<Message[]>;
   public loading$: Observable<boolean>;
   public loaded$: Observable<boolean>;
-  public userId: number;
+  private userId: number;
 
   constructor(private store: Store) {}
+
+  public isMyMessage(messageUserId: number): boolean {
+    return messageUserId === this.userId;
+  }
 
   ngOnInit(): void {
     this.messages$ = this.store.select(selectMessages);

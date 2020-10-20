@@ -6,7 +6,7 @@
   --color2: rgb(140, 200, 255, 1);
   --color3: rgb(40, 230, 120, 1);
   --color4: rgb(230, 255, 80);
-  --background-color1: rgb(0, 10, 20);
+  --background-color1: rgb(0, 0, 0);
   --background-color2: rgba(20, 30, 40, 0.5);
   --font-color1: rgb(25, 25, 25, 0.85);
   --font-color2: rgb(220, 220, 220, 0.85);
@@ -14,6 +14,16 @@
   --radius2: 0px;
   --font-size1: 20px;
   --font-size2: 28px;
+
+  /* TIMELINE */
+  --timeline-background-color: rgb(0, 0, 0);
+
+  /* MESSAGES */
+  --any-msg-font-size: 20px;
+  --any-msg-img-border-color: white;
+  --any-msg-font-color: rgb(25, 25, 25, 0.85);
+  --my-msg-background-color: rgb(140, 200, 255, 1);
+  --others-msg-background-color: rgb(40, 230, 120, 1);
 }
 ::-webkit-scrollbar {
   width: 0px;
@@ -22,7 +32,7 @@
 body {
   margin: 0px;
   padding: 0px;
-  background-color: var(--background-color1);
+  background-color: var(--timeline-background-color);
 }
 input:focus {
   outline: none;
