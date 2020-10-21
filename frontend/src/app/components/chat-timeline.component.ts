@@ -25,17 +25,6 @@ import { GetMessagesAction } from 'src/app/store/actions/chat.actions';
   `,
   styles: [
     `
-      .background-pattern {
-        background:
-          radial-gradient(#0f0f0f 3px, transparent 4px),
-          radial-gradient(#0f0f0f 3px, transparent 4px),
-          linear-gradient(#f0f0f0 4px, transparent 0),
-          linear-gradient(45deg, transparent 74px, transparent 75px, #a4a4a4 75px, #a4a4a4 76px, transparent 77px, transparent 109px),
-          linear-gradient(-45deg, transparent 75px, transparent 76px, #a4a4a4 76px, #a4a4a4 77px, transparent 78px, transparent 109px),
-          #f0f0f0;
-        background-size: 109px 109px, 109px 109px,100% 6px, 109px 109px, 109px 109px;
-        background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
-      }
       /* TIMELINE */
       .chat-timeline {
         height: calc(100vh);

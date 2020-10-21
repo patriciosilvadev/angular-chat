@@ -10,8 +10,13 @@ import { Observable } from 'rxjs';
   selector: 'app-root',
   template: `
     <div>
-      <div *ngIf="!(isLoggedIn$ | async)" class="center">
-        <button class='google-button' (click)='signInWithGoogle()'>CONTINUE WITH GOOGLE</button>
+      <div *ngIf="!(isLoggedIn$ | async)" class="center background-pattern">
+        <div id="gSignInWrapper">
+          <div id="customBtn" (click)='signInWithGoogle()' class="customGPlusSignIn">
+            <img src="assets/google_icon.png" class="icon">
+            <span class="buttonText">Continue with Google</span>
+          </div>
+        </div>
       </div>
       <div *ngIf="(isLoggedIn$ | async)">
         <app-chat-timeline></app-chat-timeline>
@@ -19,33 +24,48 @@ import { Observable } from 'rxjs';
       </div>
     </div>
   `,
-  styles: [`
-    .login-test * {
-      color: white;
-    }
+  styles: [
+  `
     .center{
       min-height: 100vh;
       min-width: 100vw;
       text-align: center;
       vertical-align: middle;
     }
-    .google-button {
-      margin-top: 45vh;
-      padding: 10px 25px;
-      font-weight: 900;
-      border: 2px solid transparent;
-      border-radius: var(--radius1);
-      background-color: var(--color3);
-      color: var(--background-color1);
-      outline: none;
+    #customBtn {
+      margin-top: calc(50vh - 26px);
+      display: inline-block;
+      background: white;
+      color: #444;
+      width: 300px;
+      border-radius: 5px;
+      border: thin solid #888;
+      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+      white-space: nowrap;
     }
-    .google-button:hover {
+    #customBtn:hover {
       cursor: pointer;
-      border: 2px solid var(--color3);
-      background-color: transparent;
-      color: var(--color3);
     }
-  `],
+    #customBtn:active {
+      box-shadow: none;
+    }
+    img.icon {
+      padding: 10px 0;
+      display: inline-block;
+      vertical-align: middle;
+      width: 30px;
+      height: 30px;
+    }
+    span.buttonText {
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: 'Roboto', sans-serif;
+      }
+    `
+  ],
 })
 export class AppComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
