@@ -19,9 +19,11 @@ import { Message } from 'src/app/store/models/message.model';
         font-size: var(--any-msg-font-size);
         display: flex;
         margin: 5px;
+        /* margin-top: 15px; REVIEW */
         user-select: none;
       }
       .message-container img {
+        /* visibility: hidden; REVIEW */
         background-color: var(--any-msg-img-border-color);
         height: 52px;
         border: 3px solid var(--any-msg-img-border-color);
@@ -35,6 +37,7 @@ import { Message } from 'src/app/store/models/message.model';
         vertical-align: middle;
       }
       .message-body .header p{
+        /* display: none; REVIEW */
         margin: 0;
         font-weight: 700;
       }

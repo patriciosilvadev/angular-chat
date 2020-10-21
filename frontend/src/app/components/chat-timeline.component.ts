@@ -27,11 +27,12 @@ import { GetMessagesAction } from 'src/app/store/actions/chat.actions';
     `
       /* TIMELINE */
       .chat-timeline {
-        height: calc(100vh);
+        min-height: 100vh;
         overflow-y: scroll;
       }
       .chat-timeline .messages-container {
         padding-bottom: 55px;
+        min-height: calc(100vh - 55px);
       }
       /* MESSAGES */
       .chat-timeline .message {
