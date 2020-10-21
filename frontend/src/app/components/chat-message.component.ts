@@ -5,7 +5,7 @@ import { Message } from 'src/app/store/models/message.model';
   selector: 'app-chat-message',
   template: `
     <div [className]="myMsg ? 'message-container message-from-me' : 'message-container message-from-others'">
-      <img src='{{ chatMessage.user.picture }}'>
+      <img class="background-blurred" src='{{ chatMessage.user.picture }}'>
       <div class="message-body">
         <div class='header'><p>{{ chatMessage.user.name }}</p></div>
         <p>{{ chatMessage.content }}</p>
@@ -24,16 +24,15 @@ import { Message } from 'src/app/store/models/message.model';
       }
       .message-container img {
         /* visibility: hidden; REVIEW */
-        background-color: var(--any-msg-img-border-color);
-        height: 52px;
-        border: 3px solid var(--any-msg-img-border-color);
-        border-radius: 5px;
+        padding: 4px;
+        height: 62px;
+        border-radius: var(--radius1);
       }
       .message-body {
         color: var(--any-msg-font-color);
         text-align: left;
-        border-radius: 5px;
-        padding: 5px;
+        border-radius: var(--radius1);
+        padding: 10px;
         vertical-align: middle;
       }
       .message-body .header p{

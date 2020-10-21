@@ -9,6 +9,7 @@ export interface ChatShape {
   messages: Message[];
   isLoaded: boolean;
   isLoading: boolean;
+  token: string;
   isLogged: boolean;
   user: User;
 }
@@ -28,6 +29,7 @@ export const initialChatState: ChatShape = {
   messages: [],
   isLoaded: false,
   isLoading: false,
+  token: '',
   isLogged: false,
   user: {
     id: -1,
@@ -45,14 +47,14 @@ export const chatReducer = createReducer(
 
   on(
     ChatActions.GetMessagesAction, (state): ChatShape => {
-      const newState = { ...state, isLoading: true, isLoaded: false };
+      const newState = { ...state, isLoading: true, isLoaded: false};
       console.log(newState);
       return newState;
     }
   ),
   on(
     ChatActions.GetMessagesSuccessAction, (state, action): ChatShape => {
-      const newState = { ...state, messages: action.messages, isLoading: false, isLoaded: true };
+      const newState = { ...state, messages: [...action.messages, ...state.messages], isLoading: false, isLoaded: true };
       console.log(newState);
       return newState;
     }
@@ -78,6 +80,15 @@ export const chatReducer = createReducer(
   ),
 
   // GOOGLE AUTH
+
+  on(
+    ChatActions.GoogleAuthAction, (state, action): ChatShape => {
+      const newState = { ...state, token: action.token };
+      localStorage.setItem('token', action.token);
+      console.log(newState);
+      return newState;
+    }
+  ),
 
   on(
     ChatActions.GoogleAuthSuccessAction, (state, action): ChatShape => {

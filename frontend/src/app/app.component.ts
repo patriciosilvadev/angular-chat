@@ -85,6 +85,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn$ = this.store.select(selectIsLogged);
+
+    const oldToken = localStorage.getItem('token');
+    if (oldToken) {
+      this.store.dispatch(GoogleAuthAction(oldToken));
+    }
+
     this.authService.authState.subscribe((user) => {
       this.store.dispatch(GoogleAuthAction(user.idToken));
     });

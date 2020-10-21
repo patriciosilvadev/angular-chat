@@ -10,20 +10,23 @@
   --background-color2: rgba(20, 30, 40, 0.5);
   --font-color1: rgb(25, 25, 25, 0.85);
   --font-color2: rgb(220, 220, 220, 0.85);
-  --radius1: 20px;
-  --radius2: 0px;
-  --font-size1: 20px;
+  --font-size1: 21px;
   --font-size2: 28px;
+
+  /* GENERAL */
+  --radius1: 2px;
+  --radius2: 0px;
+  --blur-level: 5px;
 
   /* TIMELINE */
   --timeline-background-color: rgb(0, 0, 0);
 
   /* MESSAGES */
-  --any-msg-font-size: 20px;
+  --any-msg-font-size: 21px;
   --any-msg-img-border-color: white;
   --any-msg-font-color: rgb(25, 25, 25, 0.85);
-  --my-msg-background-color: rgb(140, 200, 255, 1);
-  --others-msg-background-color: rgb(40, 230, 120, 1);
+  --my-msg-background-color: rgb(40, 230, 120, 1);
+  --others-msg-background-color: rgb(140, 200, 255, 1);
 }
 ::-webkit-scrollbar {
   width: 0px;
@@ -36,6 +39,10 @@ body {
 }
 input:focus {
   outline: none;
+}
+.background-blurred {
+  background-color: rgb(0, 0, 0, 0.2);
+  backdrop-filter: blur(var(--blur-level));
 }
 .background-pattern {
   background: radial-gradient(
@@ -57,29 +64,4 @@ input:focus {
       0 -50px;
   background-color: slategray;
   background-size: 75px 100px;
-
-  /* background: radial-gradient(#0f0f0f 3px, transparent 4px),
-    radial-gradient(#0f0f0f 3px, transparent 4px),
-    linear-gradient(#f0f0f0 4px, transparent 0),
-    linear-gradient(
-      45deg,
-      transparent 74px,
-      transparent 75px,
-      #a4a4a4 75px,
-      #a4a4a4 76px,
-      transparent 77px,
-      transparent 109px
-    ),
-    linear-gradient(
-      -45deg,
-      transparent 75px,
-      transparent 76px,
-      #a4a4a4 76px,
-      #a4a4a4 77px,
-      transparent 78px,
-      transparent 109px
-    ),
-    #f0f0f0;
-  background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px, 109px 109px;
-  background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px; */
 }

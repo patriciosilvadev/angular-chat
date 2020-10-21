@@ -11,7 +11,7 @@ import { selectUserId } from 'src/app/store/states/chat.state';
         autocomplete='off'
         spellcheck='false'
         (keyup.enter)="sendMessage()"
-        class="message-input"
+        class="message-input background-blurred"
         type="text"
         [(ngModel)]="messageContent"
       />
@@ -44,7 +44,8 @@ import { selectUserId } from 'src/app/store/states/chat.state';
         min-width: calc(100% - 120px);
         background-color: var(--background-color2);
         color: var(--font-color1);
-        backdrop-filter: blur(5px);
+        /* backdrop-filter: blur(5px); */
+        /* background-color: transparent; */
       }
       .chat-input .send-button {
         font-size: var(--font-size2);
