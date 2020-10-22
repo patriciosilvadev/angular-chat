@@ -13,10 +13,11 @@
   --blur-level: 5px;
 
   /* INPUTS */
-  --inputs-border-radius: 0px;
-  --inputs-font-size: 28px;
-  --inputs-font-color: rgb(25, 25, 25, 0.85);
-  --inputs-button-color: rgb(230, 255, 80);
+  --input-border-radius: 0px;
+  --input-message-font-size: 28px;
+  --input-message-font-color: rgb(225, 225, 225, 0.85);
+  --input-button-color: rgb(40, 230, 120, 1);
+  --input-button-font-color: rgb(25, 25, 25, 0.85);
 
   /* TIMELINE */
   --timeline-background-color: rgb(0, 0, 0);
