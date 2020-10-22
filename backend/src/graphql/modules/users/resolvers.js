@@ -3,19 +3,24 @@ const { OAuth2Client } = require("google-auth-library");
 require("dotenv").config();
 
 async function decodeToken(token) {
-  const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: process.env.GOOGLE_CLIENT_ID,
-  });
-  const payload = ticket.getPayload();
-  const userData = {
-    google_id: payload["sub"],
-    name: payload["name"],
-    email: payload["email"],
-    picture: payload["picture"],
-  };
-  return userData;
+  try {
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+      maxExpiry: 1000000000000,
+    });
+    const payload = ticket.getPayload();
+    const userData = {
+      google_id: payload["sub"],
+      name: payload["name"],
+      email: payload["email"],
+      picture: payload["picture"],
+    };
+    return userData;
+  } catch (error) {
+    throw "Invalid Token!";
+  }
 }
 
 export default {
