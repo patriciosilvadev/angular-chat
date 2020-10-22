@@ -36,24 +36,21 @@ import { selectUserId } from 'src/app/store/states/chat.state';
         margin: 0;
       }
       .chat-input .message-input {
-        font-size: var(--font-size2);
+        font-size: var(--inputs-font-size);
         padding: 0px 5px;
-        border-radius: var(--radius2);
-        border: 2px solid var(--color1);
+        border-radius: var(--inputs-border-radius);
+        border: 0px solid transparent;
         margin: 0;
         min-width: calc(100% - 120px);
-        background-color: var(--background-color2);
-        color: var(--font-color1);
-        /* backdrop-filter: blur(5px); */
-        /* background-color: transparent; */
+        color: var(--inputs-font-color);
       }
       .chat-input .send-button {
-        font-size: var(--font-size2);
-        border-radius: var(--radius2);
-        border: 2px solid var(--color1);
+        font-size: calc(var(--inputs-font-size) + 4px);
+        border-radius: var(--inputs-border-radius);
+        border: 0px solid transparent;
         width: 120px;
-        color: var(--font-color1);
-        background-color: var(--color4);
+        color: var(--inputs-font-color);
+        background-color: var(--inputs-button-color);
         text-transform: uppercase;
       }
       .chat-input .send-button:disabled {

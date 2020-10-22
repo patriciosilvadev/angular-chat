@@ -1,29 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root * {
-  font-family: "Fira Code Retina", Verdana, Geneva, Tahoma, sans-serif;
-  --color1: rgb(0, 10, 20, 0);
-  --color2: rgb(140, 200, 255, 1);
-  --color3: rgb(40, 230, 120, 1);
-  --color4: rgb(230, 255, 80);
-  --background-color1: rgb(0, 0, 0);
-  --background-color2: rgba(20, 30, 40, 0.5);
-  --font-color1: rgb(25, 25, 25, 0.85);
-  --font-color2: rgb(220, 220, 220, 0.85);
-  --font-size1: 21px;
-  --font-size2: 28px;
+  font-family: "Roboto", Verdana, Geneva, Tahoma, sans-serif;
+
+  /* BACKGROUND */
+  --pattern-color1: rgb(255, 255, 255, 0.3);
+  /* --pattern-color2: slategrey; */
+  --pattern-color2: rgb(130, 130, 170);
 
   /* GENERAL */
-  --radius1: 2px;
-  --radius2: 0px;
   --blur-level: 5px;
+
+  /* INPUTS */
+  --inputs-border-radius: 0px;
+  --inputs-font-size: 28px;
+  --inputs-font-color: rgb(25, 25, 25, 0.85);
+  --inputs-button-color: rgb(230, 255, 80);
 
   /* TIMELINE */
   --timeline-background-color: rgb(0, 0, 0);
 
   /* MESSAGES */
+  --any-msg-border-radius: 2px;
   --any-msg-font-size: 21px;
-  --any-msg-img-border-color: white;
   --any-msg-font-color: rgb(25, 25, 25, 0.85);
   --my-msg-background-color: rgb(40, 230, 120, 1);
   --others-msg-background-color: rgb(140, 200, 255, 1);
@@ -41,27 +40,27 @@ input:focus {
   outline: none;
 }
 .background-blurred {
-  background-color: rgb(0, 0, 0, 0.2);
+  background-color: rgb(0, 0, 20, 0.3);
   backdrop-filter: blur(var(--blur-level));
 }
 .background-pattern {
   background: radial-gradient(
       circle at 100% 50%,
       transparent 20%,
-      rgba(255, 255, 255, 0.3) 21%,
-      rgba(255, 255, 255, 0.3) 34%,
+      var(--pattern-color1) 21%,
+      var(--pattern-color1) 34%,
       transparent 35%,
       transparent
     ),
     radial-gradient(
         circle at 0% 50%,
         transparent 20%,
-        rgba(255, 255, 255, 0.3) 21%,
-        rgba(255, 255, 255, 0.3) 34%,
+        var(--pattern-color1) 21%,
+        var(--pattern-color1) 34%,
         transparent 35%,
         transparent
       )
       0 -50px;
-  background-color: slategray;
+  background-color: var(--pattern-color2);
   background-size: 75px 100px;
 }

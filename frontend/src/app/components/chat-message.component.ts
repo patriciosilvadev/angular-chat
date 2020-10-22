@@ -26,12 +26,12 @@ import { Message } from 'src/app/store/models/message.model';
         /* visibility: hidden; REVIEW */
         padding: 4px;
         height: 62px;
-        border-radius: var(--radius1);
+        border-radius: var(--any-msg-border-radius);
       }
       .message-body {
         color: var(--any-msg-font-color);
         text-align: left;
-        border-radius: var(--radius1);
+        border-radius: var(--any-msg-border-radius);
         padding: 10px;
         vertical-align: middle;
       }
