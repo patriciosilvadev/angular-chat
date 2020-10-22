@@ -37,7 +37,7 @@ import { Observable } from 'rxjs';
       display: inline-block;
       background: white;
       color: #444;
-      width: 300px;
+      width: 240px;
       border-radius: 5px;
       border: thin solid #888;
       box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
