@@ -8,7 +8,6 @@ async function decodeToken(token) {
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
-      maxExpiry: 1000000000000,
     });
     const payload = ticket.getPayload();
     const userData = {
