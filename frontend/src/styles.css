@@ -15,8 +15,8 @@
   /* INPUTS */
   --input-border-radius: 0px;
   --input-message-font-size: 28px;
-  --input-message-font-color: rgb(225, 225, 225, 0.85);
-  --input-button-color: rgb(40, 230, 120, 1);
+  --input-message-font-color: rgb(230, 230, 230, 0.8);
+  --input-button-color: rgb(140, 200, 255, 1);
   --input-button-font-color: rgb(25, 25, 25, 0.85);
 
   /* TIMELINE */
