@@ -9,7 +9,7 @@ import { debounceTime, delay } from 'rxjs/operators';
 @Component({
   selector: 'app-chat-timeline',
   template: `
-    <div #chatTimeline *ngIf="isLoaded" class="chat-timeline background-pattern">
+    <div #chatTimeline *ngIf="isLoaded" class="chat-timeline">
       <div *ngFor="let msg of messages; index as messageIndex;" [className]="isMyMessage(msg.user.id) ? 'msg-right' : 'msg-left'">
         <app-chat-message class="message" [chatMessage]="msg" [myMsg]="isMyMessage(msg.user.id)" [first]="isFirstMessage(messageIndex)"></app-chat-message>
       </div>

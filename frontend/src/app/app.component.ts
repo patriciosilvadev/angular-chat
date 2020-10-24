@@ -9,8 +9,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-root',
   template: `
-    <div id='app'>
-      <div *ngIf="!(isLoggedIn$ | async)" class="center background-pattern">
+    <div id='app' class="background-pattern">
+      <div *ngIf="!(isLoggedIn$ | async)" class="center">
         <div id="gSignInWrapper">
           <div id="customBtn" (click)='signInWithGoogle()' class="customGPlusSignIn">
             <img src="assets/google_icon.png" class="icon">
@@ -26,7 +26,7 @@ import { Observable } from 'rxjs';
   `,
   styles: [
   `
-    .center{
+    .center {
       min-height: 100vh;
       min-width: 100vw;
       text-align: center;

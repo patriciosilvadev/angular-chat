@@ -44,14 +44,14 @@ import { Message } from 'src/app/store/models/message.model';
         padding: 10px;
         vertical-align: middle;
       }
-      .message-body .header p{
+      .message-body .header p {
         margin: 0;
         font-weight: 700;
       }
-      .message-body .header.notFirst p{
+      .message-body .header.notFirst p {
         display: none;
       }
-      .message-body p{
+      .message-body p {
         margin: 0;
         word-break: break-word;
       }
