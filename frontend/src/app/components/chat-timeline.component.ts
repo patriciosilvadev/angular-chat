@@ -11,7 +11,8 @@ import { debounceTime, delay } from 'rxjs/operators';
   template: `
     <div #chatTimeline *ngIf="isLoaded" class="chat-timeline">
       <div *ngFor="let msg of messages; index as messageIndex;" [className]="isMyMessage(msg.user.id) ? 'msg-right' : 'msg-left'">
-        <app-chat-message class="message" [chatMessage]="msg" [myMsg]="isMyMessage(msg.user.id)" [first]="isFirstMessage(messageIndex)"></app-chat-message>
+        <div class="chat-date" *ngIf="isDiferentDay(messageIndex)"><p class='background-blurred'>{{ msg.createdAt | date:'dd/MM' }}</p></div>
+        <app-chat-message class="message" [chatMessage]="msg" [myMsg]="isMyMessage(msg.user.id)" [first]="isFirstMessage(messageIndex) || isDiferentDay(messageIndex)"></app-chat-message>
       </div>
     </div>
     <div *ngIf="isLoading" class='loading-screen chat-timeline'>
@@ -20,6 +21,18 @@ import { debounceTime, delay } from 'rxjs/operators';
   `,
   styles: [
     `
+      /* DATE */
+      .chat-timeline .chat-date {
+        text-align: center;
+      }
+      .chat-timeline .chat-date p {
+        margin: 5px 0;
+        padding: 5px 10px;
+        display: inline-block;
+        border-radius: var(--any-msg-border-radius);
+        color: var(--input-message-font-color);
+        font-size: 20px;
+      }
       /* TIMELINE */
       .chat-timeline {
         min-height: calc(100vh - 55px);
@@ -58,14 +71,31 @@ export class ChatTimelineComponent implements OnInit {
     return messageUserId === this.userId;
   }
 
-  public isFirstMessage (messageIndex): boolean {
-    const anterior = this.messages[messageIndex-1];
-    const atual = this.messages[messageIndex];
-    if (!anterior || anterior.user.id !== atual.user.id) {
-      return true;
-    } else {
-      return false;
-    }
+  public isDiferentDay (messageIndex: number): boolean {
+      const anterior = this.messages[messageIndex-1];
+      const atual = this.messages[messageIndex];
+      if (!anterior) return true;
+      const dataAnterior = new Date(Number(anterior.createdAt));
+      const dataAtual = new Date(Number(atual.createdAt))
+      if (
+        dataAnterior.getDate() !== dataAtual.getDate() ||
+        dataAnterior.getMonth() !== dataAtual.getMonth() ||
+        dataAnterior.getFullYear() !== dataAtual.getFullYear()
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+  }
+
+  public isFirstMessage (messageIndex: number): boolean {
+      const anterior = this.messages[messageIndex-1];
+      const atual = this.messages[messageIndex];
+      if (!anterior || anterior.user.id !== atual.user.id) {
+        return true;
+      } else {
+        return false;
+      }
   }
 
   private scrollToBottom (): void {

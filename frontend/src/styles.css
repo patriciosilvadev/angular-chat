@@ -28,6 +28,11 @@
   --any-msg-font-color: rgb(25, 25, 25, 0.85);
   --my-msg-background-color: rgb(40, 230, 120, 1);
   --others-msg-background-color: rgb(140, 200, 255, 1);
+
+  --any-msg-header-size: 22px;
+  --any-msg-header-color: rgb(25, 25, 25, 0.85);
+  --any-msg-footer-size: 9px;
+  --any-msg-footer-color: rgb(25, 25, 25, 0.65);
 }
 ::-webkit-scrollbar {
   width: 0px;

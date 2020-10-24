@@ -7,8 +7,9 @@ import { Message } from 'src/app/store/models/message.model';
     <div class="message-container" [class.message-from-me]="myMsg" [class.message-from-others]="!myMsg" [class.first]="first" [class.notFirst]="!first">
       <img class="background-blurred" [class.notFirst]="!first" src='{{ chatMessage.user.picture }}'>
       <div class="message-body">
-        <div class='header' [class.notFirst]="!first"><p>{{ chatMessage.user.name }}</p></div>
+        <div class='header' [class.notFirst]="!first">{{ chatMessage.user.name }}</div>
         <p>{{ chatMessage.content }}</p>
+        <div class='footer'>{{ (chatMessage.createdAt | date:'HH:mm') }}</div>
       </div>
     </div>
   `,
@@ -21,39 +22,50 @@ import { Message } from 'src/app/store/models/message.model';
         user-select: none;
       }
       .message-container.message-from-me.notFirst {
-        margin: 0px 100px 0px 0px;
+        margin: 0px 105px 0px 0px;
       }
       .message-container.message-from-others.notFirst {
-        margin: 0px 0px 0px 100px;
+        margin: 0px 0px 0px 105px;
       }
-      .message-container.first {
+      /* .message-container.first {
         margin-top: 10px;
-      }
+      } */
       .message-container img {
-        padding: 4px;
-        height: 62px;
+        padding: 5px;
+        height: 65px;
         border-radius: var(--any-msg-border-radius);
       }
       .message-container img.notFirst {
         display: none;
       }
       .message-body {
+        min-width: 50px;
         color: var(--any-msg-font-color);
         text-align: left;
         border-radius: var(--any-msg-border-radius);
         padding: 10px;
         vertical-align: middle;
       }
-      .message-body .header p {
-        margin: 0;
-        font-weight: 700;
-      }
-      .message-body .header.notFirst p {
-        display: none;
-      }
       .message-body p {
         margin: 0;
         word-break: break-word;
+      }
+      /* HEADER */
+      .message-body .header {
+        margin: 0;
+        font-weight: 700;
+        font-size: var(--any-msg-header-size);
+        color: var(--any-msg-header-color);
+      }
+      .message-body .header.notFirst {
+        display: none;
+      }
+      /* FOOTER */
+      .message-body .footer{
+        text-align: right;
+        margin: 0 -5px -5px 0;
+        font-size: var(--any-msg-footer-size);
+        color: var(--any-msg-footer-color);
       }
       /* MESSAGES FROM ME */
       .message-from-me {
