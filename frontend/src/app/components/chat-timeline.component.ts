@@ -10,8 +10,8 @@ import { debounceTime, delay } from 'rxjs/operators';
   selector: 'app-chat-timeline',
   template: `
     <div #chatTimeline *ngIf="isLoaded" class="chat-timeline background-pattern">
-      <div *ngFor="let msg of messages" [className]="isMyMessage(msg.user.id) ? 'msg-right' : 'msg-left'">
-        <app-chat-message class="message" [chatMessage]="msg" [myMsg]="isMyMessage(msg.user.id)"></app-chat-message>
+      <div *ngFor="let msg of messages; index as messageIndex;" [className]="isMyMessage(msg.user.id) ? 'msg-right' : 'msg-left'">
+        <app-chat-message class="message" [chatMessage]="msg" [myMsg]="isMyMessage(msg.user.id)" [first]="isFirstMessage(messageIndex)"></app-chat-message>
       </div>
     </div>
     <div *ngIf="isLoading" class='loading-screen chat-timeline'>
@@ -29,6 +29,7 @@ import { debounceTime, delay } from 'rxjs/operators';
       .chat-timeline .message {
         max-width: 70%;
         display: inline-block;
+        margin: 5px 0px;
       }
       /* MY MESSAGES */
       .chat-timeline .msg-right {
@@ -55,6 +56,16 @@ export class ChatTimelineComponent implements OnInit {
 
   public isMyMessage (messageUserId: number): boolean {
     return messageUserId === this.userId;
+  }
+
+  public isFirstMessage (messageIndex): boolean {
+    const anterior = this.messages[messageIndex-1];
+    const atual = this.messages[messageIndex];
+    if (!anterior || anterior.user.id !== atual.user.id) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private scrollToBottom (): void {

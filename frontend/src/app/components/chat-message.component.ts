@@ -4,10 +4,10 @@ import { Message } from 'src/app/store/models/message.model';
 @Component({
   selector: 'app-chat-message',
   template: `
-    <div [className]="myMsg ? 'message-container message-from-me' : 'message-container message-from-others'">
-      <img class="background-blurred" src='{{ chatMessage.user.picture }}'>
+    <div class="message-container" [class.message-from-me]="myMsg" [class.message-from-others]="!myMsg" [class.first]="first" [class.notFirst]="!first">
+      <img class="background-blurred" [class.notFirst]="!first" src='{{ chatMessage.user.picture }}'>
       <div class="message-body">
-        <div class='header'><p>{{ chatMessage.user.name }}</p></div>
+        <div class='header' [class.notFirst]="!first"><p>{{ chatMessage.user.name }}</p></div>
         <p>{{ chatMessage.content }}</p>
       </div>
     </div>
@@ -18,15 +18,24 @@ import { Message } from 'src/app/store/models/message.model';
       .message-container {
         font-size: var(--any-msg-font-size);
         display: flex;
-        margin: 5px;
-        /* margin-top: 15px; REVIEW */
         user-select: none;
       }
+      .message-container.message-from-me.notFirst {
+        margin: 0px 85px 0px 0px;
+      }
+      .message-container.message-from-others.notFirst {
+        margin: 0px 0px 0px 85px;
+      }
+      .message-container.first {
+        margin-top: 10px;
+      }
       .message-container img {
-        /* visibility: hidden; REVIEW */
         padding: 4px;
         height: 62px;
         border-radius: var(--any-msg-border-radius);
+      }
+      .message-container img.notFirst {
+        display: none;
       }
       .message-body {
         color: var(--any-msg-font-color);
@@ -36,9 +45,11 @@ import { Message } from 'src/app/store/models/message.model';
         vertical-align: middle;
       }
       .message-body .header p{
-        /* display: none; REVIEW */
         margin: 0;
         font-weight: 700;
+      }
+      .message-body .header.notFirst p{
+        display: none;
       }
       .message-body p{
         margin: 0;
@@ -69,4 +80,5 @@ import { Message } from 'src/app/store/models/message.model';
 export class ChatMessageComponent {
   @Input() chatMessage: Message;
   @Input() myMsg: boolean;
+  @Input() first: boolean;
 }
