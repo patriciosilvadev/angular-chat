@@ -42,3 +42,13 @@ export const selectUserId = createSelector(
   selectChatState,
   ChatState.selectUserId
 );
+
+export const selectBottomLocked = createSelector(
+  selectChatState,
+  ChatState.selectBottomLocked
+)
+
+export const selectFixBottomLockedScroll = createSelector(
+  selectChatState,
+  ChatState.selectFixBottomLockedScroll
+)

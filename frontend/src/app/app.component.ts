@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GoogleAuthAction } from 'src/app/store/actions/chat.actions';
 import { selectIsLogged } from './store/states/chat.state'
-import { SocialAuthService } from "angularx-social-login";
+import { SocialAuthService, SocialUser } from "angularx-social-login";
 import { GoogleLoginProvider } from "angularx-social-login";
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   template: `
-    <div>
+    <div id='app'>
       <div *ngIf="!(isLoggedIn$ | async)" class="center background-pattern">
         <div id="gSignInWrapper">
           <div id="customBtn" (click)='signInWithGoogle()' class="customGPlusSignIn">
@@ -91,7 +91,7 @@ export class AppComponent implements OnInit {
       this.store.dispatch(GoogleAuthAction(oldToken));
     }
 
-    this.authService.authState.subscribe((user) => {
+    this.authService.authState.subscribe((user: SocialUser) => {
       this.store.dispatch(GoogleAuthAction(user.idToken));
     });
   }

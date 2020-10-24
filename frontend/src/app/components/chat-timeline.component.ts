@@ -1,22 +1,20 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { fromEvent, Observable } from 'rxjs';
 import { Message } from 'src/app/store/models/message.model';
 import { Store } from '@ngrx/store';
-import { selectMessages, selectIsLoading, selectIsLoaded, selectUserId } from 'src/app/store/states/chat.state';
-import { GetMessagesAction } from 'src/app/store/actions/chat.actions';
+import { selectMessages, selectIsLoading, selectIsLoaded, selectUserId, selectFixBottomLockedScroll } from 'src/app/store/states/chat.state';
+import { GetMessagesAction, SetBottomLockedAction } from 'src/app/store/actions/chat.actions';
+import { debounceTime, delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chat-timeline',
   template: `
-    <div #component (click)='act()' *ngIf="(isLoaded$ | async)" class="chat-timeline background-pattern">
-      <!-- <div class='messages-container '> -->
-        <!-- <div class="top-container background-blurred">Loading</div> -->
-        <div *ngFor="let msg of (messages$ | async)" [className]="isMyMessage(msg.user.id) ? 'msg-right' : 'msg-left'">
-          <app-chat-message class="message" [chatMessage]="msg" [myMsg]="isMyMessage(msg.user.id)"></app-chat-message>
-        </div>
-      <!-- </div> -->
+    <div #chatTimeline *ngIf="isLoaded" class="chat-timeline background-pattern">
+      <div *ngFor="let msg of messages" [className]="isMyMessage(msg.user.id) ? 'msg-right' : 'msg-left'">
+        <app-chat-message class="message" [chatMessage]="msg" [myMsg]="isMyMessage(msg.user.id)"></app-chat-message>
+      </div>
     </div>
-    <div *ngIf="(isLoading$ | async)" class='loading-screen chat-timeline'>
+    <div *ngIf="isLoading" class='loading-screen chat-timeline'>
       <p>LOADING MESSAGES</p>
     </div>
   `,
@@ -44,32 +42,84 @@ import { GetMessagesAction } from 'src/app/store/actions/chat.actions';
   ],
 })
 export class ChatTimelineComponent implements OnInit {
-  @ViewChild('component', {static: false}) component: ElementRef<HTMLElement>;
+  @ViewChild('chatTimeline') timeline: ElementRef<HTMLDivElement>;
 
-  public messages$: Observable<Message[]>;
-  public isLoading$: Observable<boolean>;
-  public isLoaded$: Observable<boolean>;
+  public messages: Message[];
+  public isLoading: boolean;
+  public isLoaded: boolean;
   private userId: number;
+  private scroll$: Observable<Event>;
+  private resize$: Observable<Event>;
 
-  constructor(private store: Store) {}
+  constructor (private store: Store) {}
 
-  public isMyMessage(messageUserId: number): boolean {
+  public isMyMessage (messageUserId: number): boolean {
     return messageUserId === this.userId;
   }
 
-  // public test = 10;
-  // public act() {
-  //   console.log('acting');
-  //   this.component.nativeElement.style.backgroundPositionX = `${this.test}px`;
-  //   this.test += 10
-  // }
+  private scrollToBottom (): void {
+    const app = document.getElementById('app');
+    window.scrollTo({
+      top: app.offsetHeight,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  private trackScroll (): void {
+    const windowHeight = window.innerHeight;
+    const data = this.timeline.nativeElement.getBoundingClientRect();
+    if (Math.abs(data.height - data.bottom) < 5) {
+      // TODO actions que pede mais mensagens
+      console.warn("INICIO",data);
+    }
+    else if (Math.abs(windowHeight - data.bottom) < 5) {
+      // TODO action que ativa a variavel bottomLocked
+      this.store.dispatch(SetBottomLockedAction(true));
+      console.warn("FINAL",data);
+    }
+    else {
+      // TODO actions que desativa bottomLocked
+      this.store.dispatch(SetBottomLockedAction(false));
+      console.warn("MEIO", data);
+    }
+  }
+
+  private trackResizeEvent (): void {
+    this.resize$ = fromEvent(window, 'resize');
+    this.resize$.pipe(debounceTime(1000)).subscribe(() => {
+      this.trackScroll();
+    })
+  }
+
+  private trackScrollEvent (): void {
+    this.scroll$ = fromEvent(window, 'scroll');
+    this.scroll$.pipe(debounceTime(100)).subscribe(() => {
+      this.trackScroll();
+    })
+  }
 
   ngOnInit(): void {
-    this.messages$ = this.store.select(selectMessages);
-    this.isLoading$ = this.store.select(selectIsLoading);
-    this.isLoaded$ = this.store.select(selectIsLoaded);
+    this.trackScrollEvent();
+    this.trackResizeEvent();
 
-    this.store.select(selectUserId).subscribe(id => this.userId = id);
+    this.store.select(selectMessages).subscribe(messages =>
+      this.messages = messages
+    );
+    this.store.select(selectIsLoading).subscribe(isLoading =>
+      this.isLoading = isLoading
+    );
+    this.store.select(selectIsLoaded).subscribe(isLoaded =>
+      this.isLoaded = isLoaded
+    )
+    this.store.select(selectUserId).subscribe(id =>
+      this.userId = id
+    );
+
+    this.store.select(selectFixBottomLockedScroll).pipe(delay(250))
+      .subscribe(fixScroll =>
+        fixScroll && this.scrollToBottom()
+      );
 
     this.store.dispatch(GetMessagesAction());
   }

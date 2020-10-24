@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SendMessageAction } from 'src/app/store/actions/chat.actions';
-import { selectUserId } from 'src/app/store/states/chat.state';
+import { selectUserId, selectBottomLocked } from 'src/app/store/states/chat.state';
 
 @Component({
   selector: 'app-chat-input',
   template: `
     <div class="chat-input">
+      <button *ngIf="!bottomLocked" class="lock-bottom-button background-blurred" (click)="scrollToBottom()">
+        <img src='assets/arrow_down_icon.png'/>
+      </button>
       <input
         autofocus
         autocomplete='off'
@@ -16,17 +19,32 @@ import { selectUserId } from 'src/app/store/states/chat.state';
         type="text"
         [(ngModel)]="messageContent"
       />
-      <input
-        (click)="sendMessage()"
-        class="send-button"
-        type="button"
-        value="send"
-        [disabled]="messageContent === ''"
-      />
+      <button (click)="sendMessage()" class="send-button" [disabled]="messageContent === ''">
+        SEND
+      </button>
     </div>
   `,
   styles: [
     `
+      .chat-input .lock-bottom-button {
+        position: fixed;
+        bottom: 60px;
+        right: 25px;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        outline: none;
+        border: 1px solid transparent;
+      }
+      .chat-input .lock-bottom-button img {
+        width: 30px;
+        padding-top: 5px;
+        opacity: 0.5;
+        filter: invert(100%);
+      }
+      .chat-input .lock-bottom-button:hover {
+        cursor: pointer;
+      }
       .chat-input {
         position: fixed;
         width: 100%;
@@ -64,8 +82,18 @@ import { selectUserId } from 'src/app/store/states/chat.state';
 export class ChatInputComponent implements OnInit{
   public userId: number;
   public messageContent: string = '';
+  public bottomLocked: boolean;
 
   constructor(private store: Store) {}
+
+  public scrollToBottom = () => {
+    const app = document.getElementById('app');
+    window.scrollTo({
+      top: app.offsetHeight,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
 
   public sendMessage = async () => {
     if (this.messageContent === '') return;
@@ -74,6 +102,12 @@ export class ChatInputComponent implements OnInit{
   };
 
   ngOnInit(): void {
-    this.store.select(selectUserId).subscribe(id => this.userId = id);
+    this.store.select(selectUserId).subscribe(userId =>
+      this.userId = userId
+    );
+
+    this.store.select(selectBottomLocked).subscribe(bottomLocked =>
+      this.bottomLocked = bottomLocked
+    );
   }
 }

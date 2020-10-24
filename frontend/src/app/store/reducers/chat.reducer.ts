@@ -9,6 +9,8 @@ export interface ChatShape {
   messages: Message[];
   isLoaded: boolean;
   isLoading: boolean;
+  bottomLocked: boolean;
+  fixBottomLockedScroll: number;
   token: string;
   isLogged: boolean;
   user: User;
@@ -22,6 +24,8 @@ export const selectIsLoaded = (state: ChatShape) => state.isLoaded;
 export const selectIsLogged = (state: ChatShape) => state.isLogged;
 export const selectUser = (state: ChatShape) => state.user;
 export const selectUserId = (state: ChatShape) => state.user.id;
+export const selectBottomLocked = (state: ChatShape) => state.bottomLocked;
+export const selectFixBottomLockedScroll = (state: ChatShape) => state.fixBottomLockedScroll;
 
 // Reducer
 
@@ -29,6 +33,8 @@ export const initialChatState: ChatShape = {
   messages: [],
   isLoaded: false,
   isLoading: false,
+  bottomLocked: true,
+  fixBottomLockedScroll: 0,
   token: '',
   isLogged: false,
   user: {
@@ -54,7 +60,7 @@ export const chatReducer = createReducer(
   ),
   on(
     ChatActions.GetMessagesSuccessAction, (state, action): ChatShape => {
-      const newState = { ...state, messages: [...action.messages, ...state.messages], isLoading: false, isLoaded: true };
+      const newState = { ...state, messages: [...action.messages, ...state.messages], isLoading: false, isLoaded: true, fixBottomLockedScroll: state.bottomLocked ? state.fixBottomLockedScroll + 1 : state.fixBottomLockedScroll };
       console.log(newState);
       return newState;
     }
@@ -67,13 +73,29 @@ export const chatReducer = createReducer(
     }
   ),
 
+  // TIMELINE BEHAVIOR
+
+  on(
+    ChatActions.SetBottomLockedAction, (state, action): ChatShape => {
+      const newState = { ...state, bottomLocked: action.bottomLocked };
+      return newState;
+    }
+  ),
+
   // SEND NEW MESSAGE
+
+  on(
+    ChatActions.NewMessageSuccessAction, (state): ChatShape => {
+      const newState = { ...state, fixBottomLockedScroll: state.bottomLocked ? state.fixBottomLockedScroll + 1 : state.fixBottomLockedScroll }
+      return newState;
+    }
+  ),
 
   // RECEIVE NEW MESSAGES
 
   on(
     ChatActions.NewMessageSuccessAction, (state, action): ChatShape => {
-      const newState = { ...state, messages: [...state.messages, action.message] };
+      const newState = { ...state, messages: [...state.messages, action.message], fixBottomLockedScroll: state.bottomLocked ? state.fixBottomLockedScroll + 1 : state.fixBottomLockedScroll };
       console.log(newState);
       return newState;
     }

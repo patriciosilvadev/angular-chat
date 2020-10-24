@@ -53,3 +53,9 @@ export const GoogleAuthSuccessAction = createAction(
 export const GoogleAuthFailAction = createAction(
   '[Chat] Google Auth Fail'
 )
+
+// TIMELINE BEHAVIOR
+
+export const SetBottomLockedAction = createAction(
+  '[Chat] Lock Bottom', (bottomLocked: boolean) => ({ bottomLocked })
+)
