@@ -80,14 +80,15 @@ export class ChatTimelineComponent implements OnInit {
   private trackScroll (): void {
     const windowHeight = window.innerHeight;
     const data = this.timeline.nativeElement.getBoundingClientRect();
-    if (Math.abs(data.height - data.bottom) < 5) {
-      // TODO actions que pede mais mensagens
-      console.warn("INICIO",data);
-    }
-    else if (Math.abs(windowHeight - data.bottom) < 5) {
+    if (Math.abs(windowHeight - data.bottom) < 5) {
       // TODO action que ativa a variavel bottomLocked
       this.store.dispatch(SetBottomLockedAction(true));
       console.warn("FINAL",data);
+    }
+    else if (Math.abs(data.height - data.bottom) < 5) {
+      // TODO actions que pede mais mensagens
+      this.store.dispatch(SetBottomLockedAction(false));
+      console.warn("INICIO",data);
     }
     else {
       // TODO actions que desativa bottomLocked
