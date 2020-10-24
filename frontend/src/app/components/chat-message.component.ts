@@ -21,10 +21,10 @@ import { Message } from 'src/app/store/models/message.model';
         user-select: none;
       }
       .message-container.message-from-me.notFirst {
-        margin: 0px 85px 0px 0px;
+        margin: 0px 100px 0px 0px;
       }
       .message-container.message-from-others.notFirst {
-        margin: 0px 0px 0px 85px;
+        margin: 0px 0px 0px 100px;
       }
       .message-container.first {
         margin-top: 10px;
@@ -63,16 +63,14 @@ import { Message } from 'src/app/store/models/message.model';
         background-color: var(--my-msg-background-color);
       }
       .message-from-me img {
-        margin-left: 10px;
-        margin-right: 5px;
+        margin: 0 15px;
       }
       /* MESSAGES FROM OTHERS */
       .message-from-others .message-body {
         background-color: var(--others-msg-background-color);
       }
       .message-from-others img {
-        margin-right: 10px;
-        margin-left: 5px;
+        margin: 0 15px;
       }
     `,
   ],

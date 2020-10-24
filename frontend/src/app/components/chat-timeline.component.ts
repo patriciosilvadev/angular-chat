@@ -29,7 +29,7 @@ import { debounceTime, delay } from 'rxjs/operators';
       .chat-timeline .message {
         max-width: 70%;
         display: inline-block;
-        margin: 5px 0px;
+        margin: 4px 0px;
       }
       /* MY MESSAGES */
       .chat-timeline .msg-right {

@@ -10,7 +10,7 @@
 
   /* BLUR */
   --blur-color: rgb(0, 0, 20, 0.3);
-  --blur-level: 5px;
+  --blur-level: 6px;
 
   /* INPUTS */
   --input-border-radius: 0px;
@@ -23,7 +23,7 @@
   --timeline-background-color: rgb(0, 0, 0);
 
   /* MESSAGES */
-  --any-msg-border-radius: 2px;
+  --any-msg-border-radius: 5px;
   --any-msg-font-size: 22px;
   --any-msg-font-color: rgb(25, 25, 25, 0.85);
   --my-msg-background-color: rgb(40, 230, 120, 1);
