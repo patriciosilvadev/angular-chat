@@ -11,7 +11,7 @@ import { debounceTime, delay } from 'rxjs/operators';
   template: `
     <div #chatTimeline *ngIf="isLoaded" class="chat-timeline">
       <div *ngFor="let msg of messages; index as messageIndex;" [className]="isMyMessage(msg.user.id) ? 'msg-right' : 'msg-left'">
-        <div class="chat-date" *ngIf="isDiferentDay(messageIndex)"><p class='background-blurred'>{{ msg.createdAt | date:'dd/MM' }}</p></div>
+        <div class="chat-date" *ngIf="isDiferentDay(messageIndex)"><span class='background-blurred'>{{ msg.createdAt | date:'dd/MM' }}</span></div>
         <app-chat-message class="message" [chatMessage]="msg" [myMsg]="isMyMessage(msg.user.id)" [first]="isFirstMessage(messageIndex) || isDiferentDay(messageIndex)"></app-chat-message>
       </div>
     </div>
@@ -25,7 +25,7 @@ import { debounceTime, delay } from 'rxjs/operators';
       .chat-timeline .chat-date {
         text-align: center;
       }
-      .chat-timeline .chat-date p {
+      .chat-timeline .chat-date span {
         margin: 5px 0;
         padding: 5px 10px;
         display: inline-block;
@@ -42,7 +42,7 @@ import { debounceTime, delay } from 'rxjs/operators';
       .chat-timeline .message {
         max-width: 70%;
         display: inline-block;
-        margin: 4px 0px;
+        margin: 5px 0px;
       }
       /* MY MESSAGES */
       .chat-timeline .msg-right {
@@ -72,30 +72,30 @@ export class ChatTimelineComponent implements OnInit {
   }
 
   public isDiferentDay (messageIndex: number): boolean {
-      const anterior = this.messages[messageIndex-1];
-      const atual = this.messages[messageIndex];
-      if (!anterior) return true;
-      const dataAnterior = new Date(Number(anterior.createdAt));
-      const dataAtual = new Date(Number(atual.createdAt))
-      if (
-        dataAnterior.getDate() !== dataAtual.getDate() ||
-        dataAnterior.getMonth() !== dataAtual.getMonth() ||
-        dataAnterior.getFullYear() !== dataAtual.getFullYear()
-      ) {
-        return true;
-      } else {
-        return false;
-      }
+    const anterior = this.messages[messageIndex-1];
+    const atual = this.messages[messageIndex];
+    if (!anterior) return true;
+    const dataAnterior = new Date(Number(anterior.createdAt));
+    const dataAtual = new Date(Number(atual.createdAt))
+    if (
+      dataAnterior.getDate() !== dataAtual.getDate() ||
+      dataAnterior.getMonth() !== dataAtual.getMonth() ||
+      dataAnterior.getFullYear() !== dataAtual.getFullYear()
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public isFirstMessage (messageIndex: number): boolean {
-      const anterior = this.messages[messageIndex-1];
-      const atual = this.messages[messageIndex];
-      if (!anterior || anterior.user.id !== atual.user.id) {
-        return true;
-      } else {
-        return false;
-      }
+    const anterior = this.messages[messageIndex-1];
+    const atual = this.messages[messageIndex];
+    if (!anterior || anterior.user.id !== atual.user.id) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private scrollToBottom (): void {
